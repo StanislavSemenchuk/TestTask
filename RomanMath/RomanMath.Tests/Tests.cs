@@ -13,28 +13,31 @@ namespace RomanMath.Tests
 		}
 
 		[Test]
-		public void ThrowsArgumentExceptionWhenTrySubstrack()
+		[TestCase("IV+II/V")]
+		[TestCase("X/V")]
+		public void ThrowsArgumentExceptionWhenTrySubstrack(string argument)
 		{
 			//Assert
-			Assert.Throws<ArgumentException>(() => Service.Evaluate("IV+II/V"));
-			Assert.Throws<ArgumentException>(() => Service.Evaluate("X/V"));
+			Assert.Throws<ArgumentException>(() => Service.Evaluate(argument));
 		}
 
 		[Test]
-		public void ThrowsArgumentExceptionWhenInvaldNumber()
+		[TestCase("IV+IXI")]
+		[TestCase("XVI+VIIII")]
+		public void ThrowsArgumentExceptionWhenInvaldNumber(string arument)
 		{
 			//Assert
-			Assert.Throws<ArgumentException>(() => Service.Evaluate("IV+IXI"));
-			Assert.Throws<ArgumentException>(() => Service.Evaluate("XVI+VIIII"));
+			Assert.Throws<ArgumentException>(() => Service.Evaluate(arument));
 		}
 
 		[Test]
-		public void ThrowsArgumentExceptionWhenStringEmptyNullOrWhiteSpase()
+		[TestCase(null)]
+		[TestCase("")]
+		[TestCase("   ")]
+		public void ThrowsArgumentExceptionWhenStringEmptyNullOrWhiteSpase(string argumet)
 		{
 			//Assert
-			Assert.Throws<ArgumentException>(() => Service.Evaluate(""));
-			Assert.Throws<ArgumentException>(() => Service.Evaluate("   "));
-			Assert.Throws<ArgumentException>(() => Service.Evaluate(null));
+			Assert.Throws<ArgumentException>(() => Service.Evaluate(argumet));
 		}
 
 		[Test]
@@ -42,6 +45,7 @@ namespace RomanMath.Tests
 		[TestCase(-2, "IV-VI")]
 		[TestCase(3999, "MMM+CM+XC+IX")]
 		[TestCase(1942, "M+CM+XL+II")]
+		[TestCase(2380, "MMM-CM+XL*VII")]
 		public void ReturnCorrectResultsWithCorrectArguments(int expected, string expression) 
 		{
 			//Assert

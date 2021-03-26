@@ -1,5 +1,4 @@
-﻿using System;
-using RomanMath.Impl;
+﻿using RomanMath.Impl;
 
 namespace RomanMath.Console
 {
@@ -12,7 +11,9 @@ namespace RomanMath.Console
 		/// <param name="args"></param>
 		static void Main(string[] args)
 		{
-			var result = Service.Evaluate("CM+M+XL+II");
+			var romeNumber = string.Empty;
+			romeNumber = System.Console.ReadLine();
+			var result = Service.Evaluate(romeNumber);
             System.Console.WriteLine(result);
 			System.Console.ReadKey();
 		}
