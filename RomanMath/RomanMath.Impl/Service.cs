@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace RomanMath.Impl
@@ -14,7 +15,32 @@ namespace RomanMath.Impl
         /// <returns></returns>
         public static int Evaluate(string expression)
         {
-            
+            if (string.IsNullOrWhiteSpace(expression)) 
+            {
+                throw new ArgumentException("Expressin string is null or empty");
+            }
+
+            expression = expression.Replace(" ", "");
+
+
+            //regex for checking is given expression permissible
+            string allowedRomes = @"M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})";
+            string allowedExpress = string.Concat($"^([{allowedRomes}]", @"+[\+\*-])+", $"{allowedRomes}$");
+            if (!Regex.IsMatch(expression, allowedExpress))
+            {
+                throw new ArgumentException("Given expression is incorect");
+            }
+
+            var romanNumbers = expression.Split('+', '-', '*');
+
+            foreach (var romanNumber in romanNumbers)
+            {
+                var arabicNumber = ConvertToArabic(romanNumber).ToString();
+                expression = expression.Replace(romanNumber, arabicNumber); ;
+            }
+
+            var result = new DataTable().Compute(expression, "");
+            return (int) result;
         }
 
         private static readonly Dictionary<char, int> romanDigMap = new Dictionary<char, int>
