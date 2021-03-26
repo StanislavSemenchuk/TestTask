@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace RomanMath.Impl
 {
@@ -36,7 +37,9 @@ namespace RomanMath.Impl
             foreach (var romanNumber in romanNumbers)
             {
                 var arabicNumber = ConvertToArabic(romanNumber).ToString();
-                expression = expression.Replace(romanNumber, arabicNumber); ;
+                int i = expression.IndexOf(romanNumber);
+                //replace first coinciding substring
+                expression = expression.Remove(i, romanNumber.Length).Insert(i, arabicNumber);
             }
 
             var result = new DataTable().Compute(expression, "");
@@ -45,7 +48,7 @@ namespace RomanMath.Impl
 
         private static readonly Dictionary<char, int> romanDigMap = new Dictionary<char, int>
         {
-            {'M', 1000}, {'D', 500}, {'C', 100},{'L', 50},{'X', 10},{'V', 5},{'I', 1}
+            {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}
         };
 
         /// <returns>Integer representation of roman number</returns>
@@ -67,7 +70,7 @@ namespace RomanMath.Impl
                 if (i >= romanNumber.Length - 1 ||
                     thisNumeral + minus >= romanDigMap[romanNumber[i + 1]])
                 {
-                    total += thisNumeral;
+                    total = total + thisNumeral;
                     minus = 0;
                 }
                 else
