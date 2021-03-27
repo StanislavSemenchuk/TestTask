@@ -24,7 +24,13 @@ namespace Rectangle.Impl
 			int minX = points.Select(x => x.X).Min();
 			int maxX = points.Select(x => x.X).Max();
 
-			throw new NotImplementedException();
+			return new Rectangle()
+			{
+				Y = minY,
+				X = minX + 1,
+				Width = maxX = minX,
+				Height = maxY - minX
+			};
 		}
 	}
 }
