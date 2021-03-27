@@ -68,5 +68,22 @@ namespace Rectangle.Tests
                 Width = -4
             }
         };
+
+        public static List<List<Point>> invalidPoints = new List<List<Point>>
+        {
+            new List<Point>{null, null, null},
+            null,
+            new List<Point>
+            {
+                new Point() { X = 1, Y = 3 },
+                new Point() { X = 1, Y = 2 },
+                new Point() { X = 3, Y = 3 },
+                new Point() { X = 3, Y = 3 }
+            },
+            new List<Point>
+            {
+                new Point() { X = 3, Y = 3 }
+            },
+        };
     }
 }
